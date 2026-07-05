@@ -1,6 +1,8 @@
 import { Commentary, Language } from "./Commentary.js";
 import { Match } from "./Match.js";
-import { Defender, GoalKeeper, MidFielder, Player, PlayerType, Striker } from "./Player.js";
+import { matchEvents } from "./MatchEvents.js";
+import { Defender, GoalKeeper, MidFielder, Striker } from "./Player.js";
+import { Scoreboard } from "./Scoreboard.js";
 import { Team } from "./Team.js";
 
 const Pickford = new GoalKeeper("Pickford", 1);
@@ -16,7 +18,6 @@ const Rashford = new MidFielder("Rashford", 11);
 const Kane = new Striker("Kane", 9);
 const EnglandPlayers = [Pickford, Spence, Konsa, OReilly, Guehi, Anderson, Rice, Saka, Bellingham, Rashford, Kane];
 
-
 const Simon = new GoalKeeper("Simón", 23);
 const Cucurella = new Defender("Cucurella", 24);
 const Grimaldo = new Defender("Grimaldo", 3);
@@ -30,23 +31,26 @@ const Williams = new Striker("Williams", 17);
 const Yamal = new Striker("Yamal", 19);
 const SpainPlayers = [Simon, Cucurella, Grimaldo, Laporte, Cubarsi, Rodri, Pedri, Gavi, Olmo, Williams, Yamal];
 
-
 const commentary = new Commentary(Language.English);
+const scoreboard = new Scoreboard();
+
+matchEvents.subscribe(commentary);
+matchEvents.subscribe(scoreboard);
 
 const England = new Team("England", EnglandPlayers);
 const Spain = new Team("Spain", SpainPlayers);
 const match = new Match(England, Spain);
 
-match.startMatch(commentary);
+match.startMatch();
 
 Anderson.run();
 Anderson.throughball();
-Anderson.pass(Rashford, commentary); 
+Anderson.pass(Rashford);
 
-Rashford.pass(Kane, commentary);     
-Kane.shoot(commentary);              
+Rashford.pass(Kane);
+Kane.shoot();
 
-England.scoreGoal(commentary);
+England.scoreGoal();
 
 match.getScore();
-match.getResult(commentary);
+match.getResult();

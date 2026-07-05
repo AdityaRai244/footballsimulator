@@ -1,4 +1,4 @@
-import type { Commentary } from "./Commentary.js";
+import { EventType, matchEvents } from "./MatchEvents.js";
 import { Team } from "./Team.js";
 
 export class Match {
@@ -7,33 +7,44 @@ export class Match {
     public Team2: Team;
 
     constructor(Team1: Team, Team2: Team) {
-
         this.Team1 = Team1;
         this.Team2 = Team2;
-
     }
 
-    public startMatch(commentary: Commentary) {
-        commentary.generate(null, "matchIntro");
+    public startMatch(): void {
+        matchEvents.publish(EventType.MATCH_START, {
+            team1: this.Team1.teamName,
+            team2: this.Team2.teamName,
+        });
     }
 
-    public getScore() {
-        console.log(`Current score is ${this.Team1.teamName} : ${this.Team1.goals} - ${this.Team2.teamName} : ${this.Team2.goals}`)
-        return;
+    public getScore(): void {
+        matchEvents.publish(EventType.SCORE_DISPLAY, {
+            team1: this.Team1.teamName,
+            team1Goals: this.Team1.goals,
+            team2: this.Team2.teamName,
+            team2Goals: this.Team2.goals,
+        });
     }
 
-    public getResult(commentary: Commentary) {
-        commentary.generate(null, "matchResult");
-        if (this.Team1.goals > this.Team2.goals) {
-            console.log(`${this.Team1.teamName} won the match !!`)
-            return;
-        } else if (this.Team1.goals < this.Team2.goals) {
-            console.log(`${this.Team2.teamName} won the match !!`);
-            return;
-        } else {
-            console.log(`Match Tied`);
-            return;
+    public getResult(): void {
+        const team1Goals = this.Team1.goals;
+        const team2Goals = this.Team2.goals;
+        let winner: string | null = null;
+
+        if (team1Goals > team2Goals) {
+            winner = this.Team1.teamName;
+        } else if (team1Goals < team2Goals) {
+            winner = this.Team2.teamName;
         }
+
+        matchEvents.publish(EventType.MATCH_END, {
+            team1: this.Team1.teamName,
+            team1Goals,
+            team2: this.Team2.teamName,
+            team2Goals,
+            winner,
+        });
     }
 
 }

@@ -1,4 +1,4 @@
-import type { Commentary } from "./Commentary.js";
+import { EventType, matchEvents } from "./MatchEvents.js";
 
 export enum PlayerType {
     Striker,
@@ -19,20 +19,16 @@ export class Player {
         this.playerType = playerType;
     }
 
-    public run() {
-        console.log(`${this.playerName} is running`);
-        return;
+    public run(): void {
+        matchEvents.publish(EventType.RUN, { player: this });
     }
 
-    public pass(targetPlayer: Player, commentary: Commentary) {
-        console.log(`${this.playerName} passed the ball to ${targetPlayer.playerName}`);
-        commentary.generate(this, "pass");
-        return;
+    public pass(targetPlayer: Player): void {
+        matchEvents.publish(EventType.PASS, { player: this, receiver: targetPlayer });
     }
 
-    public celebrate() {
-        console.log(`${this.playerName} is celebrating`);
-        return;
+    public celebrate(): void {
+        matchEvents.publish(EventType.CELEBRATE, { player: this });
     }
 
 }
@@ -43,9 +39,8 @@ export class Striker extends Player {
         super(playerName, jerseyNumber, PlayerType.Striker);
     }
 
-    public shoot(commentary: Commentary): void {
-        console.log(`${this.playerName} shot the ball towards the goal !!!`);
-        commentary.generate(this, "shoot");
+    public shoot(): void {
+        matchEvents.publish(EventType.SHOOT, { player: this });
     }
 }
 
@@ -56,11 +51,10 @@ export class MidFielder extends Player {
     }
 
     public throughball(): void {
-        console.log(`${this.playerName} made an incredible through pass`);
+        matchEvents.publish(EventType.THROUGH_BALL, { player: this });
     }
 
 }
-
 
 export class Defender extends Player {
 
@@ -69,11 +63,10 @@ export class Defender extends Player {
     }
 
     public tackle(): void {
-        console.log(`Great defending from ${this.playerName}`);
+        matchEvents.publish(EventType.TACKLE, { player: this });
     }
 
 }
-
 
 export class GoalKeeper extends Player {
 
@@ -82,6 +75,6 @@ export class GoalKeeper extends Player {
     }
 
     public save(): void {
-        console.log(`Incredible goal save by ${this.playerName}`);
+        matchEvents.publish(EventType.SAVE, { player: this });
     }
 }

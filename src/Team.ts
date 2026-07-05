@@ -1,24 +1,21 @@
-import type { Commentary } from "./Commentary.js";
-import {Defender, GoalKeeper, MidFielder, Player, PlayerType, Striker} from "./Player.js";
+import { EventType, matchEvents } from "./MatchEvents.js";
+import { Player } from "./Player.js";
 
-export class Team{
+export class Team {
 
-    public teamName : string;
-    public players : Player[];
-    public goals : number;
+    public teamName: string;
+    public players: Player[];
+    public goals: number;
 
-    constructor(teamName : string, players : Player[]){
+    constructor(teamName: string, players: Player[]) {
         this.teamName = teamName;
         this.players = players;
         this.goals = 0;
     }
 
-    public scoreGoal(commentary : Commentary){
+    public scoreGoal(): void {
         this.goals++;
-        commentary.generate(null,"goal");
-        console.log(`${this.teamName} just scored a goal`)
-        return;
+        matchEvents.publish(EventType.GOAL, { team: this.teamName });
     }
-
 
 }
