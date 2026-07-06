@@ -25,7 +25,7 @@ export class Scoreboard implements MatchObserver {
                 if (winner) {
                     console.log(`🏆 ${winner} won the match!`);
                 } else {
-                    console.log(`🤝 Match tied`);
+                    console.log(`🤝 Match tied !`);
                 }
                 break;
             }
