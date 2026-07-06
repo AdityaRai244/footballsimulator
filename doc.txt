@@ -1,3 +1,0 @@
-player , match and team are publishers
-commentary and scoreboard are the observers.
-
