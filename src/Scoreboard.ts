@@ -7,7 +7,7 @@ import {
     type ScoreDisplayPayload,
 } from "./MatchEvents.js";
 
-export class Scoreboard implements MatchObserver {
+export class ScoreBoard implements MatchObserver {
     onEvent(type: EventType, payload: MatchEventPayload): void {
         switch (type) {
             case EventType.GOAL: {

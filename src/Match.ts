@@ -1,5 +1,4 @@
 import { EventType, matchEvents } from "./MatchEvents.js";
-import { EventType, matchEvents } from "./MatchEvents.js";
 import { Team } from "./Team.js";
 
 export class Match {

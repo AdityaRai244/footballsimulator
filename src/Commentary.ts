@@ -1,5 +1,4 @@
 import { EventType, type MatchEventPayload, type MatchObserver, type PassPayload, type PlayerActionPayload } from "./MatchEvents.js";
-import { EventType, type MatchEventPayload, type MatchObserver, type PassPayload, type PlayerActionPayload } from "./MatchEvents.js";
 import type { Player } from "./Player.js";
 
 export enum Language {
@@ -23,7 +22,6 @@ interface Sentences {
     celebrate: string[];
 }
 
-export class Commentary implements MatchObserver {
 export class Commentary implements MatchObserver {
 
     public language: Language;
