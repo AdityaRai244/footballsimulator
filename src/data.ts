@@ -1,4 +1,23 @@
-import { Language, type Sentences } from "./Commentary.js";
+export enum Language {
+    English,
+    Hindi,
+    Spanish
+}
+
+export interface Sentences {
+    matchIntro: string[];
+    pass: string[];
+    shoot: string[];
+    goal: string[];
+    matchResult: string[];
+    run: string[];
+    throughBall: string[];
+    tackle: string[];
+    save: string[];
+    celebrate: string[];
+}
+
+export type SpeakAction = keyof Sentences;
 
 export const languageDatabase: Record<Language, Sentences> = {
 

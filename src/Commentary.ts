@@ -1,27 +1,8 @@
-import { languageDatabase } from "./data.js";
+import { Language, languageDatabase, type SpeakAction } from "./data.js";
 import { EventType, type MatchEventPayload, type MatchObserver, type PassPayload, type PlayerActionPayload } from "./MatchEvents.js";
 import type { Player } from "./Player.js";
 
-export enum Language {
-    English,
-    Hindi,
-    Spanish
-}
 
-type SpeakAction = keyof Sentences;
-
-export interface Sentences {
-    matchIntro: string[];
-    pass: string[];
-    shoot: string[];
-    goal: string[];
-    matchResult: string[];
-    run: string[];
-    throughBall: string[];
-    tackle: string[];
-    save: string[];
-    celebrate: string[];
-}
 
 export class Commentary implements MatchObserver {
 

@@ -1,4 +1,5 @@
-import { Commentary, Language } from "./Commentary.js";
+import { Commentary } from "./Commentary.js";
+import { Language } from "./data.js";
 import { Match } from "./Match.js";
 import { matchEvents } from "./MatchEvents.js";
 import { Defender, GoalKeeper, MidFielder, Striker } from "./Player.js";
