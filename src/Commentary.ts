@@ -127,13 +127,12 @@ export class Commentary implements MatchObserver {
 
         const noPlayerPrefix: SpeakAction[] = ["matchIntro", "matchResult", "goal"];
         if (noPlayerPrefix.includes(action)) {
-            console.log(`🎙️ ${randomPhrase}`);
+            console.log(`🎙️  ${randomPhrase}`);
             return;
         }
 
 
         const name = player ? player.playerName : "";
-        console.log(`🎙️ ${name} ${randomPhrase}`);
-        console.log(`🎙️ ${name} ${randomPhrase}`);
+        console.log(`🎙️  ${name} ${randomPhrase}`);
     }
 }

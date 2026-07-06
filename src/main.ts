@@ -2,7 +2,7 @@ import { Commentary, Language } from "./Commentary.js";
 import { Match } from "./Match.js";
 import { matchEvents } from "./MatchEvents.js";
 import { Defender, GoalKeeper, MidFielder, Striker } from "./Player.js";
-import { ScoreBoard } from "./Scoreboard.js";
+import { ScoreBoard } from "./ScoreBoard.js";
 import { Team } from "./Team.js";
 
 const Pickford = new GoalKeeper("Pickford", 1);
