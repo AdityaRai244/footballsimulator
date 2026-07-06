@@ -42,6 +42,8 @@ matchEvents.subscribe(commentary);
 matchEvents.subscribe(scoreBoard);
 
 
+match.startMatch();
+
 Anderson.run();
 Anderson.throughball();
 Anderson.pass(Rashford); 
@@ -49,7 +51,6 @@ Anderson.pass(Rashford);
 Rashford.pass(Kane);     
 Kane.shoot();              
 
-England.scoreGoal();
 England.scoreGoal();
 
 match.getScore();
