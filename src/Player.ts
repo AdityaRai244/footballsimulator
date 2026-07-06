@@ -59,7 +59,6 @@ export class MidFielder extends Player {
 
 }
 
-
 export class Defender extends Player {
 
     constructor(playerName: string, jerseyNumber: number) {
@@ -71,7 +70,6 @@ export class Defender extends Player {
     }
 
 }
-
 
 export class GoalKeeper extends Player {
 

@@ -50,6 +50,7 @@ Rashford.pass(Kane);
 Kane.shoot();              
 
 England.scoreGoal();
+England.scoreGoal();
 
 match.getScore();
 match.getResult();
