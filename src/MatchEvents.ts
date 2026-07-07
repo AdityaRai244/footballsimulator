@@ -59,7 +59,7 @@ export interface MatchObserver{
     onEvent(type : EventType, payload : MatchEventPayload) : void;
 }
 
-class MatchEventBus{
+export class MatchEventBus{
 
     private observers : MatchObserver[] = [];
 
@@ -72,5 +72,3 @@ class MatchEventBus{
     }
 
 }
-
-export const matchEvents = new MatchEventBus();

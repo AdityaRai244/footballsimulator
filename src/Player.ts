@@ -1,4 +1,4 @@
-import {EventType, matchEvents} from "./MatchEvents.js";
+import { EventType, MatchEventBus } from "./MatchEvents.js";
 
 export enum PlayerType {
     Striker,
@@ -13,25 +13,30 @@ export class Player {
     public jerseyNumber: number;
     public playerType: PlayerType;
 
+    protected eventBus?: MatchEventBus;
+
     constructor(playerName: string, jerseyNumber: number, playerType: PlayerType) {
         this.playerName = playerName;
         this.jerseyNumber = jerseyNumber;
         this.playerType = playerType;
     }
 
+    public setEventBus(eventBus: MatchEventBus) {
+        this.eventBus = eventBus;
+    }
     public run() {
-        matchEvents.publish(EventType.RUN, {player: this});
+        this.eventBus?.publish(EventType.RUN, { player: this });
     }
 
     public pass(targetPlayer: Player) {
-        matchEvents.publish(EventType.PASS, {
-            player : this,
-            receiver : targetPlayer
+        this.eventBus?.publish(EventType.PASS, {
+            player: this,
+            receiver: targetPlayer
         })
     }
 
     public celebrate() {
-        matchEvents.publish(EventType.CELEBRATE, {player: this});
+        this.eventBus?.publish(EventType.CELEBRATE, { player: this });
     }
 
 }
@@ -43,7 +48,7 @@ export class Striker extends Player {
     }
 
     public shoot(): void {
-        matchEvents.publish(EventType.SHOOT, {player: this});
+        this.eventBus?.publish(EventType.SHOOT, { player: this });
     }
 }
 
@@ -54,7 +59,7 @@ export class MidFielder extends Player {
     }
 
     public throughball(): void {
-        matchEvents.publish(EventType.THROUGH_BALL, {player: this});
+        this.eventBus?.publish(EventType.THROUGH_BALL, { player: this });
     }
 
 }
@@ -66,7 +71,7 @@ export class Defender extends Player {
     }
 
     public tackle(): void {
-        matchEvents.publish(EventType.TACKLE, {player: this});
+        this.eventBus?.publish(EventType.TACKLE, { player: this });
     }
 
 }
@@ -79,6 +84,6 @@ export class GoalKeeper extends Player {
 
 
     public save(): void {
-        matchEvents.publish(EventType.SAVE, {player: this});
+        this.eventBus?.publish(EventType.SAVE, { player: this });
     }
 }

@@ -1,79 +1,28 @@
-import { Language, languageDatabase, type SpeakAction } from "./data.js";
-import { EventType, type MatchEventPayload, type MatchObserver, type PassPayload, type PlayerActionPayload } from "./MatchEvents.js";
+import type { LanguagePack } from "./LanguagePack.js";
+import { LanguageRegistry } from "./LanguageRegistry.js";
+import { EventType, type MatchEventPayload, type MatchObserver } from "./MatchEvents.js";
 import type { Player } from "./Player.js";
 
-
-
 export class Commentary implements MatchObserver {
+    private languagePack: LanguagePack;
 
-    public language: Language;
-
-
-    constructor(language: Language) {
-        this.language = language;
+    constructor(languageCode: string) {
+        this.languagePack = LanguageRegistry.get(languageCode);
     }
 
     onEvent(type: EventType, payload: MatchEventPayload): void {
-        switch (type) {
-            case EventType.MATCH_START:
-                this.speak(null, "matchIntro");
-                break;
-            case EventType.PASS: {
-                const { player } = payload as PassPayload;
-                this.speak(player, "pass");
-                break;
-            }
-            case EventType.SHOOT: {
-                const { player } = payload as PlayerActionPayload;
-                this.speak(player, "shoot");
-                break;
-            }
-            case EventType.GOAL:
-                this.speak(null, "goal");
-                break;
-            case EventType.MATCH_END:
-                this.speak(null, "matchResult");
-                break;
-            case EventType.RUN: {
-                const { player } = payload as PlayerActionPayload;
-                this.speak(player, "run");
-                break;
-            }
-            case EventType.THROUGH_BALL: {
-                const { player } = payload as PlayerActionPayload;
-                this.speak(player, "throughBall");
-                break;
-            }
-            case EventType.TACKLE: {
-                const { player } = payload as PlayerActionPayload;
-                this.speak(player, "tackle");
-                break;
-            }
-            case EventType.SAVE: {
-                const { player } = payload as PlayerActionPayload;
-                this.speak(player, "save");
-                break;
-            }
-            case EventType.CELEBRATE: {
-                const { player } = payload as PlayerActionPayload;
-                this.speak(player, "celebrate");
-                break;
-            }
-        }
-    }
+        const phrases = this.languagePack.phrases[type];
+        if (!phrases || phrases.length === 0) return;
 
-    private speak(player: Player | null, action: SpeakAction): void {
-        const lines = languageDatabase[this.language];
-        const phrases = lines[action];
         const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
 
-        const noPlayerPrefix: SpeakAction[] = ["matchIntro", "matchResult", "goal"];
-        if (noPlayerPrefix.includes(action)) {
-            console.log(`🎙️  ${randomPhrase}`);
-            return;
-        }
+        const player = (payload && "player" in payload) ? (payload as any).player as Player : null;
 
-        const name = player ? player.playerName : "";
-        console.log(`🎙️  ${name} ${randomPhrase}`);
+        const noPlayerEvents = [EventType.MATCH_START, EventType.MATCH_END, EventType.GOAL];
+        if (noPlayerEvents.includes(type) || !player) {
+            console.log(`🎙️  ${randomPhrase}`);
+        } else {
+            console.log(`🎙️  ${player.playerName} ${randomPhrase}`);
+        }
     }
 }
