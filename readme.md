@@ -20,8 +20,11 @@ A TypeScript-based football match simulator designed with strict adherence to **
   ```bash
  
   npm install -g typescript ts-node
+```
+
 
 2. Run 
 
   ``` bash
   npm run dev
+```
